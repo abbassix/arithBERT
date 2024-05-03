@@ -1,0 +1,9 @@
+floor: 20
+ceil: 50
+name: double-digit-test
+n_train: 7200
+n_test: 120
+op: both
+ops: both
+rev: both
+ref: True
