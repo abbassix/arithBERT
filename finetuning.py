@@ -33,7 +33,12 @@ model_path = f"../models/{model_name}"
 train_dataset_path = f"../datasets/{train_dataset_name}"
 
 print("Loading the model and the train dataset...\n")
-model, tokenizer = load_model(model_path)
+# check if the model exists in the models directory
+# if it does not exist, download it
+try:
+    model = load_model(model_path)
+except FileNotFoundError:
+    model = load_model(model_checkpoint)
 
 train_dataset = load_dataset(train_dataset_path)
 
