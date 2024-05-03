@@ -24,13 +24,19 @@ To set up the project, follow these steps:
 2. Install the required dependencies: `pip install -r requirements.txt`
 
 ## Usage
-To run the project, first you need to create the training and test datasets. You will need to create a directory names `datasets` in the parent directoy of the project. Then you need to run the following lines to create the training and test datasets.
+To run the project, first you need to create the training and test datasets. You will need to have a directory named `datasets` in the parent directoy of the project to store the datasets there. You will also need to have two more directories: `models` to load to store models and `results` to store the resulting accuracies.
+To make sure if you have the required directories and if not, to create them, run the following lines.
+```bash
+chmod +x create_dirs.sh
+./create_dirs.sh
+```
+Then you need to run the following lines to create the training and test datasets.
 ```bash
 python create_datasets.py single_digit_train
 python create_datasets.py single_digit_test
 python create_datasets.py double_digit_test
 ```
-After creating datasets, you need to have the distilBERTbase model in a directory named `models` again in the parent directory. Also make sure that there is another directory in the parent directoty named `results` where the fine-tuning process will store the accuracies. The arguments to fine-tune the modela are stored in `config.yaml` file. Then run the following line.
+After creating datasets, you need to have the distilBERTbase model in a directory named `models` again in the parent directory. The arguments to fine-tune the modela are stored in `config.yaml` file. Then run the following line.
 ```bash
 python finetuning.py
 ```
