@@ -97,7 +97,7 @@ class CustomDataCollator(DataCollatorForLanguageModeling):
 
 
 def load_model(
-        model_name: str,
+        model_checkpoint: str,
         verbose=True) -> tuple[AutoModelForMaskedLM, AutoTokenizer]:
     """
     Load the model and tokenizer from the local machine
@@ -105,6 +105,21 @@ def load_model(
     :return: a tuple of the model and tokenizer
     """
 
+    model_name = model_checkpoint.split("/")[-1]
+    model_path = f"../models/{model_name}"
+    try:
+        # check if the model is in the local machine
+        open(f"{model_path}/config.json")
+        # load the model from the local machine
+        print(f"Loading the model from the local machine: {model_path}")
+        model = AutoModelForMaskedLM.from_pretrained(model_path)
+        tokenizer = AutoTokenizer.from_pretrained(model_path)
+    except FileNotFoundError:
+        print(f"Model {model_name} is not found in the local machine.")
+        print("Loading the model from the Hugging Face model hub!")
+        # load the model from the Hugging Face model hub
+        model = AutoModelForMaskedLM.from_pretrained(model_checkpoint)
+        tokenizer = AutoTokenizer.from_pretrained(model_checkpoint)
     # load the model from the local machine
     model = AutoModelForMaskedLM.from_pretrained(model_name)
 

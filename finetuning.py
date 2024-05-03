@@ -9,7 +9,6 @@ GitHub: abbassix
 # import the necessary libraries
 import yaml
 from functions import load_model, load_dataset, fine_tune, accuracy
-from transformers import AutoModelForMaskedLM, AutoTokenizer
 
 
 print("Successfully imported the necessary libraries.\n")
@@ -29,18 +28,10 @@ single_digit_test_name = config['single-digit_test_dataset_name']
 double_digit_test_name = config['double-digit_test_dataset_name']
 
 model_name = model_checkpoint.split("/")[-1]
-
-model_path = f"../models/{model_name}"
 train_dataset_path = f"../datasets/{train_dataset_name}"
 
 print("Loading the model and the train dataset...\n")
-# check if the model exists in the models directory
-# if it does not exist, download it
-try:
-    model, tokenizer = load_model(model_path)
-except FileNotFoundError:
-    model = AutoModelForMaskedLM.from_pretrained(model_checkpoint)
-    tokenizer = AutoTokenizer.from_pretrained(model_checkpoint)
+model, tokenizer = load_model(model_checkpoint)
 
 train_dataset = load_dataset(train_dataset_path)
 
