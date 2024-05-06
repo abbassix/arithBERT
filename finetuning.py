@@ -40,7 +40,7 @@ except FileNotFoundError as e:
     warnings.warn(
         f"Error: The configuration file '{config_file}.yaml' does not exist."
         )
-    logging.warning(f"Encountered a problem: {str(e)}")
+    logging.error(f"Encountered a problem: {str(e)}")
     sys.exit(1)
 
 model_checkpoint = config['model_checkpoint']
@@ -62,7 +62,7 @@ except FileNotFoundError as e:
     warnings.warn(
         f"Error: The model checkpoint '{model_checkpoint}' does not exist."
         )
-    logging.warning(f"Encountered a problem: {str(e)}")
+    logging.error(f"Encountered a problem: {str(e)}")
     sys.exit(1)
 
 try:
@@ -71,7 +71,7 @@ except FileNotFoundError as e:
     warnings.warn(
         f"Error: The train dataset '{train_dataset_path}' does not exist."
         )
-    logging.warning(f"Encountered a problem: {str(e)}")
+    logging.error(f"Encountered a problem: {str(e)}")
     sys.exit(1)
 
 print("Tokenizing the train dataset...\n")
@@ -94,7 +94,7 @@ except FileNotFoundError as e:
         '{double_digit_test_name}' do not exist.
         """
         )
-    logging.warning(f"Encountered a problem: {str(e)}")
+    logging.error(f"Encountered a problem: {str(e)}")
     sys.exit(1)
 
 single_digit_test_acc = []
@@ -122,6 +122,9 @@ for i in range(n_epochs):
         warnings.warn(
             "Warning: The number of epochs is more than the number"
             "of learning rates provided."
+            )
+        logging.warning(
+            "Using the last learning rate for the rest of the epochs."
             )
         lr = lrs[-1]
     # otherwise, use the corresponding learning rate
