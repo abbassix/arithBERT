@@ -7,16 +7,41 @@ GitHub: abbassix
 """
 
 # import the necessary libraries
+import sys
 import yaml
+import warnings
+import logging
 from functions import load_model, load_dataset, fine_tune, accuracy
+
+
+logging.basicConfig(level=logging.WARNING)
+
+
+def tokenize_label(example: dict) -> dict:
+    """
+    Tokenize the label columns
+    """
+
+    return tokenizer(example["unmasked"])
 
 
 print("Successfully imported the necessary libraries.\n")
 
+# receive the configuration file name from the first argument
+config_file = sys.argv[1]
+
 # define the model, train dataset, number of epochs, and learning rates
 print("Loading the configuration file...\n")
-with open('config.yaml', 'r') as file:
-    config = yaml.safe_load(file)
+# check for errors in the configuration file
+try:
+    with open(f'{config_file}.yaml', 'r') as file:
+        config = yaml.safe_load(file)
+except FileNotFoundError as e:
+    warnings.warn(
+        f"Error: The configuration file '{config_file}.yaml' does not exist."
+        )
+    logging.warning(f"Encountered a problem: {str(e)}")
+    sys.exit(1)
 
 model_checkpoint = config['model_checkpoint']
 train_dataset_name = config['train_dataset_name']
@@ -31,18 +56,23 @@ model_name = model_checkpoint.split("/")[-1]
 train_dataset_path = f"../datasets/{train_dataset_name}"
 
 print("Loading the model and the train dataset...\n")
-model, tokenizer = load_model(model_checkpoint)
+try:
+    model, tokenizer = load_model(model_checkpoint)
+except FileNotFoundError as e:
+    warnings.warn(
+        f"Error: The model checkpoint '{model_checkpoint}' does not exist."
+        )
+    logging.warning(f"Encountered a problem: {str(e)}")
+    sys.exit(1)
 
-train_dataset = load_dataset(train_dataset_path)
-
-
-def tokenize_label(example: dict) -> dict:
-    """
-    Tokenize the label columns
-    """
-
-    return tokenizer(example["unmasked"])
-
+try:
+    train_dataset = load_dataset(train_dataset_path)
+except FileNotFoundError as e:
+    warnings.warn(
+        f"Error: The train dataset '{train_dataset_path}' does not exist."
+        )
+    logging.warning(f"Encountered a problem: {str(e)}")
+    sys.exit(1)
 
 print("Tokenizing the train dataset...\n")
 tokenized_dataset = train_dataset.map(
@@ -54,8 +84,18 @@ single_digit_test_path = f"../datasets/{single_digit_test_name}"
 double_digit_test_path = f"../datasets/{double_digit_test_name}"
 
 print("Loading the test datasets...\n")
-single_digit_test = load_dataset(single_digit_test_path)
-double_digit_test = load_dataset(double_digit_test_path)
+try:
+    single_digit_test = load_dataset(single_digit_test_path)
+    double_digit_test = load_dataset(double_digit_test_path)
+except FileNotFoundError as e:
+    warnings.warn(
+        f"""
+        Error: The test datasets '{single_digit_test_name}' or
+        '{double_digit_test_name}' do not exist.
+        """
+        )
+    logging.warning(f"Encountered a problem: {str(e)}")
+    sys.exit(1)
 
 single_digit_test_acc = []
 double_digit_test_acc = []
@@ -79,6 +119,10 @@ for i in range(n_epochs):
     # in case the number of epochs is more than the number of
     # learning rates provided use the last learning rate
     if i >= len(lrs):
+        warnings.warn(
+            "Warning: The number of epochs is more than the number"
+            "of learning rates provided."
+            )
         lr = lrs[-1]
     # otherwise, use the corresponding learning rate
     else:
@@ -106,8 +150,9 @@ tokenizer.save_pretrained(f"../models/{model_name}_{train_dataset_name}")
 
 # save the accuracy results in a YAML file
 print("Saving the accuracy results...\n")
-with open(f"../results/{model_name}_{train_dataset_name}.yaml", 'w') as file:
+results_file = f"../results/{model_name}_{collator}_{train_dataset_name}.yaml"
+with open(results_file, 'w') as file:
     yaml.dump({
-        "single-digit_acc": single_digit_test_acc,
-        "double-digit_acc": double_digit_test_acc
+        "single-digit_accuracy": single_digit_test_acc,
+        "double-digit_accuracy": double_digit_test_acc
     }, file)
