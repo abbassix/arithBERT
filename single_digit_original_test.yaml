@@ -1,0 +1,9 @@
+floor: 0
+ceil: 10
+name: single-digit-test
+n_train: 1860
+n_test: 120
+op: both
+ops: both
+rev: both
+ref: False
