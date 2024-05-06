@@ -1,6 +1,6 @@
 floor: 0
 ceil: 10
-name: single-digit-train
+name: single-digit_original_train
 n_train: 3600
 n_test: 120
 op: both

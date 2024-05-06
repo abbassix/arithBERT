@@ -1,6 +1,6 @@
 floor: 0
 ceil: 10
-name: single-digit-test
+name: single-digit_original_test
 n_train: 1860
 n_test: 120
 op: both
