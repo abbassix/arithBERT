@@ -35,8 +35,13 @@ Then you need to run the following lines to create the training and test dataset
 python create_datasets.py single_digit_train
 python create_datasets.py single_digit_test
 python create_datasets.py double_digit_test
+python create_datasets.py single_digit_original_train
+python create_datasets.py single_digit_original_test
+python create_datasets.py double_digit_original_test
 ```
-After creating datasets, you need to have the distilBERTbase model in a directory named `models` again in the parent directory. The arguments to fine-tune the modela are stored in `config.yaml` file. Then run the following line.
+After creating datasets, you need to have the distilBERTbase model in a directory named `models` again in the parent directory. The arguments to fine-tune the modela are stored in three different YAML files. Run the following lines to fine-tune three different scenarios to compare the results.
 ```bash
-python finetuning.py
+python finetuning.py compare_reframing
+python finetuning.py compare_masking
+python finetuning.py compare_models
 ```
