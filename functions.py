@@ -216,7 +216,8 @@ def accuracy(
         model: AutoModelForMaskedLM,
         tokenizer: AutoTokenizer,
         dataset: DatasetDict,
-        test_set="test") -> float:
+        test_set="test",
+        verbose=False) -> float:
     """
     Calculate the accuracy of the model on the test dataset.
     :param model: the model
@@ -280,7 +281,8 @@ def accuracy(
             len_mm += 1
             # note that the both sides are tensors
             if torch.equal(predictions[0, p_msk_idx], torch.tensor(label_id)):
-                print(f">> Correct! {row['masked']}: {row['unmasked']}")
+                if verbose:
+                    print(f">> Correct! {row['masked']}: {row['unmasked']}")
                 n_correct += 1
                 n_correct_mm += 1
     accuracy = 100 * n_correct / len(dataset[test_set])
