@@ -97,19 +97,23 @@ def compare_accuracy(data: dict, criterion: str):
     plt.savefig(f'../results/{criterion}_comparison.png')
 
 
-files = os.listdir('../results')
+def main():
+    files = os.listdir('../results')
+    data = {}
+    for file in files:
+        parts = file.split('_')
+        model_name = parts[0].split('-')[0]
+        collator = parts[1]
+        reframing = parts[3]
+        if file.endswith('.yaml'):
+            with open('../results/' + file, 'r') as f:
+                data_from_file = yaml.load(f, Loader=yaml.FullLoader)
+                data[f"{model_name}_{collator}_{reframing}"] = data_from_file
 
-data = {}
-for file in files:
-    parts = file.split('_')
-    model_name = parts[0].split('-')[0]
-    collator = parts[1]
-    reframing = parts[3]
-    if file.endswith('.yaml'):
-        with open('../results/' + file, 'r') as f:
-            data_from_file = yaml.load(f, Loader=yaml.FullLoader)
-            data[f"{model_name}_{collator}_{reframing}"] = data_from_file
+    compare_accuracy(data, 'model')
+    compare_accuracy(data, 'collator')
+    compare_accuracy(data, 'reframing')
 
-compare_accuracy(data, 'model')
-compare_accuracy(data, 'collator')
-compare_accuracy(data, 'reframing')
+
+if __name__ == '__main__':
+    main()
