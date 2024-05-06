@@ -1,0 +1,19 @@
+model_checkpoint: google-bert/bert-base-uncased
+train_dataset_name: single-digit_train
+one-digit_test_dataset_name: single-digit_test
+two-digit_test_dataset_name: double-digit_test
+batch_size: 32
+n_epochs: 10
+collator: custom
+lrs:
+- 2.0e-4
+- 1.0e-4
+- 9.0e-5
+- 8.0e-5
+- 7.0e-5
+- 5.0e-6
+- 5.0e-5
+- 4.0e-5
+- 3.0e-5
+- 2.0e-5
+- 1.0e-5
