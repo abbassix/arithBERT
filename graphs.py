@@ -48,6 +48,8 @@ def compare_accuracy(data: dict, criterion: str):
     doubdig_tocompare_acc = data[tocompare]['double_digit_accuracy']
     doubdig_tocompare_acc = [x[0] for x in doubdig_tocompare_acc]
 
+    n_epochs = len(sindig_base_acc)
+
     plt.style.use('ggplot')
 
     # add alpha channel to the color to make it lighter
@@ -57,7 +59,7 @@ def compare_accuracy(data: dict, criterion: str):
     plt.yticks(np.arange(0, 101, 10))
 
     # use more ticks for horizontal axis
-    plt.xticks(np.arange(0, 11))
+    plt.xticks(np.arange(0, n_epochs+1))
 
     # chnage grid color to light gray
     plt.grid(color='#e9e9e9')
@@ -65,7 +67,7 @@ def compare_accuracy(data: dict, criterion: str):
     # use lighter background for the plot
     plt.gca().set_facecolor('#f9f9f9')
 
-    epochs = np.arange(0, 11)
+    epochs = np.arange(0, n_epochs+1)
 
     plt.plot(
         epochs, sindig_base_acc,
