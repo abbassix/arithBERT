@@ -24,7 +24,7 @@ To set up the project, follow these steps:
 2. Install the required dependencies: `pip install -r requirements.txt`
 
 ## Usage
-To run the project, first you need to create the training and test datasets. You will need to have a directory named `datasets` in the parent directoy of the project to store the datasets there. You will also need to have two more directories: `models` to load to store models and `results` to store the resulting accuracies.
+To run the project, you need to create the training and test datasets. But before that you need to have a directory named `datasets` in the parent directoy of the project to store the datasets there. You will also need to have two more directories: `models` to load to store models and `results` to store the resulting accuracies.
 To make sure if you have the required directories and if not, to create them, run the following lines.
 ```bash
 chmod +x create_dirs.sh
@@ -35,7 +35,7 @@ Then you need to run the following lines to create 6 different training and test
 chmod +x create_datasets.sh
 ./create_datasets.sh
 ```
-After creating datasets, you need to have the distilBERTbase model in a directory named `models` again in the parent directory. The arguments to fine-tune the modela are stored in three different YAML files. Run the following lines to fine-tune three different scenarios to compare the results.
+After creating datasets, you have to fine-tune the models. If the models are already stored in the `models` directory they will be loaded from there, otherwise they will be downloaded from Hugging Face Hub. The arguments to fine-tune the modela are stored in three different YAML files. Run the following lines to fine-tune three different scenarios to compare the results.
 ```bash
 chmod +x finetune.sh
 ./finetune.sh
