@@ -30,7 +30,7 @@ To make sure if you have the required directories and if not, to create them, ru
 chmod +x create_dirs.sh
 ./create_dirs.sh
 ```
-Then you need to run the following line to create 6 different training and test datasets.
+Then you need to run the following lines to create 6 different training and test datasets.
 ```bash
 chmod +x create_datasets.sh
 ./create_datasets.sh
@@ -39,4 +39,8 @@ After creating datasets, you need to have the distilBERTbase model in a director
 ```bash
 chmod +x finetune.sh
 ./finetune.sh
+```
+Finally we have to compare the results with graphs. Run the following line to create the graphs in the `results` directory.
+```bash
+python graphs.py
 ```
