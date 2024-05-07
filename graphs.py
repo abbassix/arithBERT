@@ -67,7 +67,7 @@ def compare_accuracy(data: dict, criterion: str):
     # use lighter background for the plot
     plt.gca().set_facecolor('#f9f9f9')
 
-    epochs = np.arange(0, n_epochs+1)
+    epochs = np.arange(0, n_epochs)
 
     plt.plot(
         epochs, sindig_base_acc,
