@@ -30,14 +30,10 @@ To make sure if you have the required directories and if not, to create them, ru
 chmod +x create_dirs.sh
 ./create_dirs.sh
 ```
-Then you need to run the following lines to create the training and test datasets.
+Then you need to run the following line to create the training and test datasets.
 ```bash
-python create_datasets.py single_digit_train
-python create_datasets.py single_digit_test
-python create_datasets.py double_digit_test
-python create_datasets.py single_digit_original_train
-python create_datasets.py single_digit_original_test
-python create_datasets.py double_digit_original_test
+chmod +x create_datasets.sh
+./create_datasets.sh
 ```
 After creating datasets, you need to have the distilBERTbase model in a directory named `models` again in the parent directory. The arguments to fine-tune the modela are stored in three different YAML files. Run the following lines to fine-tune three different scenarios to compare the results.
 ```bash
