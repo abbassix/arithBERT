@@ -1,7 +1,7 @@
 model_checkpoint: google-bert/bert-base-uncased
-train_dataset_name: single-digit_train
-single-digit_test_dataset_name: single-digit_test
-double-digit_test_dataset_name: double-digit_test
+train_dataset_name: single-digit_reframed_train
+single-digit_test_dataset_name: single-digit_reframed_test
+double-digit_test_dataset_name: double-digit_reframed_test
 batch_size: 32
 n_epochs: 10
 collator: custom
