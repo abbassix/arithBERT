@@ -30,7 +30,6 @@ print("Successfully imported the necessary libraries.\n")
 # receive the configuration file name from the first argument
 config_file = sys.argv[1]
 
-# define the model, train dataset, number of epochs, and learning rates
 print("Loading the configuration file...\n")
 # check for errors in the configuration file
 try:
