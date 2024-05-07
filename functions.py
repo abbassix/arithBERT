@@ -120,6 +120,9 @@ def load_model(
         # load the model from the Hugging Face model hub
         model = AutoModelForMaskedLM.from_pretrained(model_checkpoint)
         tokenizer = AutoTokenizer.from_pretrained(model_checkpoint)
+        # save the model to the local machine
+        model.save_pretrained(model_path)
+        tokenizer.save_pretrained(model_path)
     # load the model from the local machine
     model = AutoModelForMaskedLM.from_pretrained(model_name)
 
