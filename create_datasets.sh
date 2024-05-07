@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # Run Python files with their respective arguments
+# to create six datasets
 python create_datasets.py single_digit_train
 python create_datasets.py single_digit_test
 python create_datasets.py double_digit_test
