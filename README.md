@@ -30,14 +30,13 @@ To make sure if you have the required directories and if not, to create them, ru
 chmod +x create_dirs.sh
 ./create_dirs.sh
 ```
-Then you need to run the following line to create the training and test datasets.
+Then you need to run the following line to create 6 different training and test datasets.
 ```bash
 chmod +x create_datasets.sh
 ./create_datasets.sh
 ```
 After creating datasets, you need to have the distilBERTbase model in a directory named `models` again in the parent directory. The arguments to fine-tune the modela are stored in three different YAML files. Run the following lines to fine-tune three different scenarios to compare the results.
 ```bash
-python finetuning.py compare_reframing
-python finetuning.py compare_masking
-python finetuning.py compare_models
+chmod +x finetune.sh
+./finetune.sh
 ```
