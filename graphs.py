@@ -39,13 +39,13 @@ def compare_accuracy(data: dict, criterion: str):
 
     tocompare = f"{model_names}_{collators}_{reframings}"
 
-    sindig_base_acc = data[base]['single_digit_accuracy']
+    sindig_base_acc = data[base]['single-digit_accuracy']
     sindig_base_acc = [x[0] for x in sindig_base_acc]
-    doubdig_base_acc = data[base]['double_digit_accuracy']
+    doubdig_base_acc = data[base]['double-digit_accuracy']
     doubdig_base_acc = [x[0] for x in doubdig_base_acc]
-    singdig_tocompare_acc = data[tocompare]['single_digit_accuracy']
+    singdig_tocompare_acc = data[tocompare]['single-digit_accuracy']
     singdig_tocompare_acc = [x[0] for x in singdig_tocompare_acc]
-    doubdig_tocompare_acc = data[tocompare]['double_digit_accuracy']
+    doubdig_tocompare_acc = data[tocompare]['double-digit_accuracy']
     doubdig_tocompare_acc = [x[0] for x in doubdig_tocompare_acc]
 
     n_epochs = len(sindig_base_acc)
