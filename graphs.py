@@ -92,7 +92,7 @@ def compare_accuracy(data: dict, criterion: str):
 
     plt.xlabel('Epochs')
     plt.ylabel('Accuracy')
-    plt.title('')  # Impact of Numerical Reframing on Model Accuracy
+    plt.title('')
     plt.legend(loc='center right', bbox_to_anchor=(1, 0.4))
 
     # save the plot
