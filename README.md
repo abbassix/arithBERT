@@ -20,8 +20,14 @@ A modified masking approach targets spans of consecutive digits, enhancing the m
 
 ## Installation
 To set up the project, follow these steps:
-1. Clone the repository: `git clone http://github.com/abbassix/arithBERT`
-2. Install the required dependencies: `pip install -r requirements.txt`
+1. Clone the repository:
+```bash
+git clone http://github.com/abbassix/arithBERT
+```
+2. Install the required dependencies:
+```bash
+pip install -r requirements.txt
+```
 
 ## Usage
 To run the project, you need to create the training and test datasets. But before that you need to have a directory named `datasets` in the parent directoy of the project to store the datasets there. You will also need to have two more directories: `models` to load to store models and `results` to store the resulting accuracies.
