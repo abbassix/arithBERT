@@ -24,6 +24,18 @@ To set up the project, follow these steps:
 ```bash
 git clone http://github.com/abbassix/arithBERT
 ```
+(optional) 1½. Create a virtual environment:
+```bash
+python3.10 -m venv .venv
+```
+1½.a. On Windows:
+```bash
+.venv\Scripts\activate
+```
+1½.b. On macOS/Linux:
+```bash
+source .venv/bin/activate
+```
 2. Install the required dependencies:
 ```bash
 pip install -r requirements.txt
