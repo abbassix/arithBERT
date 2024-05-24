@@ -1,0 +1,19 @@
+model_checkpoint: google-bert/distilbert-base-uncased_single-digit_reframed_train_custom_double-digit_reframed_new_train_custom
+train_dataset_name: triple-digit_reframed_train
+single-digit_test_dataset_name: double-digit_reframed_new_test
+double-digit_test_dataset_name: triple-digit_reframed_test
+batch_size: 32
+n_epochs: 10
+collator: custom
+lrs:
+- 2.0e-4
+- 1.0e-4
+- 9.0e-5
+- 8.0e-5
+- 7.0e-5
+- 5.0e-6
+- 5.0e-5
+- 4.0e-5
+- 3.0e-5
+- 2.0e-5
+- 1.0e-5
