@@ -430,10 +430,10 @@ def main():
         # generate test dataset
         gen_ds(floor, ceil, name_test, n_test, n_test, op,
                ops, rev, ref, list_pos=test_list, list_neg=train_list)
-    elif instructions[0] == 'm':
-        print(f'The given instructions are: {instructions}')
+    elif inst[0] == 'm':
+        print(f'The given instructions are: {inst}')
         # merge the datasets
-        datasets = instructions[1:].split('-')
+        datasets = inst[1:].split('-')
         merge_datasets(datasets, name)
     else:
         print("The instructions are not correct.")
