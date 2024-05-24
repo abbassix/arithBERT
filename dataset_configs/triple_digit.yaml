@@ -1,7 +1,7 @@
 floor: 20
 ceil: 50
 name: triple-digit_reframed
-n_train: 9000
+n_train: 1000
 n_test: 3000
 op: both
 ops: both
