@@ -45,7 +45,7 @@ except FileNotFoundError as e:
     sys.exit(1)
 
 model_checkpoint = config['model_checkpoint']
-test_dataset_name = config['single-digit_test_dataset_name']
+test_dataset_name = config['test_dataset_name']
 
 model_name = model_checkpoint.split("/")[-1]
 
