@@ -1,0 +1,10 @@
+floor: 20
+ceil: 50
+name: double-digit_reframed_new
+n_train: 8711
+n_test: 594
+op: both
+ops: both
+rev: both
+ref: True
+instructions: s20-100-70-30

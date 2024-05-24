@@ -2,8 +2,9 @@ floor: 0
 ceil: 10
 name: single-digit_original_test
 n_train: 1860
-n_test: 120
+n_test: 1860
 op: both
 ops: both
 rev: both
 ref: False
+instructions: 
