@@ -405,21 +405,21 @@ def main():
     ops = config['ops']
     rev = config['rev']
     ref = config['ref']
-    instructions = config['instructions']
+    inst = config['instructions']
 
-    if instructions is None:
+    if inst is None:
         gen_ds(floor, ceil, name, n_train, n_test, op,
                ops, rev, ref)
-    elif instructions[0] == 's':
-        print(f'The given instructions are: {instructions}')
+    elif inst[0] == 's':
+        print(f'The given instructions are: {inst}')
         # split and map integers
-        floor, ceil, train_ratio, test_ratio = map(int, instructions[1:].split('-'))
+        floor, ceil, train_ratio, test_ratio = map(int, inst[1:].split('-'))
         train_ratio = train_ratio / 100
         test_ratio = test_ratio / 100
         list_ = list(range(floor, ceil))
         random.shuffle(list_)
         train_list = list_[:int(train_ratio * len(list_))]
-        train_list += [i for i in range(0, 20)]
+        train_list += [i for i in range(0, floor)]
         print(train_list)
         test_list = list_[-int(test_ratio * len(list_)):]
         name_train = f"{name}_train"
