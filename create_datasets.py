@@ -49,15 +49,25 @@ def save_dataset(umsk, msk, name, n_train, n_test, val=0.1):
     z = list(zip(umsk, msk))
 
     # randomly select n_samples from the zipped list
-    if len(z) > n_train:
+    if len(z) == n_train:
+        train_zip = z
+    elif len(z) > n_train:
         train_zip = random.sample(z, n_train)
-    else:
+    elif len(z) < n_train:
+        random.shuffle(z)
         train_zip = z * (n_train // len(z)) + z[:n_train % len(z)]
-
-    if len(z) > n_test:
-        test_zip = random.sample(z, n_test)
     else:
+        print("The number of training samples is not correct.")
+
+    if len(z) == n_test:
+        test_zip = z
+    elif len(z) > n_test:
+        test_zip = random.sample(z, n_test)
+    elif len(z) < n_test:
+        random.shuffle(z)
         test_zip = z * (n_test // len(z)) + z[:n_test % len(z)]
+    else:
+        print("The number of test samples is not correct.")
 
     # shuffle the zipped list
     random.shuffle(train_zip)
@@ -252,7 +262,8 @@ def _upd(op, eq, op1, op2, res, umsk, msk, rev):
     return umsk, msk
 
 
-def ad_ds(floor, ceil, name, ops="both", rev="both", ref=True):
+def ad_ds(floor, ceil, name, ops="both", rev="both",
+          ref=True, list_pos=None, list_neg=None):
     """
     generates a two lists of addition problems and their solutions
     and calls the save_dataset function to save the dataset to a file
@@ -264,11 +275,11 @@ def ad_ds(floor, ceil, name, ops="both", rev="both", ref=True):
     """
     umsk = []
     msk = []
-    # if floor is list and ceil is None, then floor is the list of numbers
-    if isinstance(floor, list) and ceil is None:
-        range_ = floor
+    if list_pos is not None and list_neg is not None:
+        range_pos = list_pos
     else:
-        range_ = range(floor, ceil)
+        range_pos = range(floor, ceil)
+        list_neg = []
     if ops == "sign":
         opeq = [("+", "=")]
     elif ops == "word":
@@ -278,9 +289,11 @@ def ad_ds(floor, ceil, name, ops="both", rev="both", ref=True):
 
     # iterate over given range of numbers and generate addition problems
     for (op, eq) in opeq:
-        for op1 in range_:
-            for op2 in range_:
+        for op1 in range_pos:
+            for op2 in range_pos:
                 res = op1 + op2
+                if res in list_neg:
+                    continue
                 if ref:
                     _op1 = reframe(op1)
                     op2 = reframe(op2)
@@ -295,7 +308,8 @@ def ad_ds(floor, ceil, name, ops="both", rev="both", ref=True):
     return umsk, msk
 
 
-def sub_ds(floor, ceil, name, ops="both", rev="both", ref=True):
+def sub_ds(floor, ceil, name, ops="both", rev="both",
+           ref=True, list_pos=None, list_neg=None):
     """
     generates a two lists of addition problems and their solutions
     and calls the save_dataset function to save the dataset to a file
@@ -307,11 +321,13 @@ def sub_ds(floor, ceil, name, ops="both", rev="both", ref=True):
     """
     umsk = []
     msk = []
-    # if floor is list and ceil is None, then floor is the list of numbers
-    if isinstance(floor, list) and ceil is None:
-        range_ = floor
+
+    if list_pos is not None and list_neg is not None:
+        range_pos = list_pos
     else:
-        range_ = range(floor, ceil)
+        range_pos = range(floor, ceil)
+        list_neg = []
+
     if ops == "sign":
         opeq = [("-", "=")]
     elif ops == "word":
@@ -321,10 +337,10 @@ def sub_ds(floor, ceil, name, ops="both", rev="both", ref=True):
 
     # iterate over given range of numbers and generate subtraction problems
     for (op, eq) in opeq:
-        for op1 in range_:
-            for op2 in range_:
+        for op1 in range_pos:
+            for op2 in range_pos:
                 res = op1 - op2
-                if res < 0:
+                if res in list_neg or res < 0:
                     continue
                 if ref:
                     _op1 = reframe(op1)
@@ -342,17 +358,22 @@ def sub_ds(floor, ceil, name, ops="both", rev="both", ref=True):
 
 def gen_ds(
         floor, ceil, name, n_train, n_test,
-        op="both", ops="both", rev="both", ref=True):
+        op="both", ops="both", rev="both",
+        ref=True, list_pos=None, list_neg=None):
     """
     generates a dataset of addition and subtraction problems
     """
     if op == "add":
-        umsk, msk = ad_ds(floor, ceil, name, ops, rev, ref)
+        umsk, msk = ad_ds(floor, ceil, name, ops, rev,
+                          ref, list_pos=list_pos, list_neg=list_neg)
     elif op == "sub":
-        umsk, msk = sub_ds(floor, ceil, name, ops, rev, ref)
+        umsk, msk = sub_ds(floor, ceil, name, ops, rev,
+                           ref, list_pos=list_pos, list_neg=list_neg)
     elif op == "both":
-        umsk_ad, msk_ad = ad_ds(floor, ceil, name, ops, rev, ref)
-        umsk_su, msk_su = sub_ds(floor, ceil, name, ops, rev, ref)
+        umsk_ad, msk_ad = ad_ds(floor, ceil, name, ops, rev,
+                                ref, list_pos=list_pos, list_neg=list_neg)
+        umsk_su, msk_su = sub_ds(floor, ceil, name, ops, rev,
+                                 ref, list_pos=list_pos, list_neg=list_neg)
         umsk = umsk_ad + umsk_su
         msk = msk_ad + msk_su
 
@@ -382,9 +403,38 @@ def main():
     ops = config['ops']
     rev = config['rev']
     ref = config['ref']
+    instructions = config['instructions']
 
-    # call the gen_ds function
-    gen_ds(floor, ceil, name, n_train, n_test, op, ops, rev, ref)
+    if instructions is None:
+        gen_ds(floor, ceil, name, n_train, n_test, op,
+               ops, rev, ref)
+    elif instructions[0] == 's':
+        print(f'The given instructions are: {instructions}')
+        # split and map integers
+        floor, ceil, train_ratio, test_ratio = map(int, instructions[1:].split('-'))
+        train_ratio = train_ratio / 100
+        test_ratio = test_ratio / 100
+        list_ = list(range(floor, ceil))
+        random.shuffle(list_)
+        train_list = list_[:int(train_ratio * len(list_))]
+        train_list += [i for i in range(0, 20)]
+        print(train_list)
+        test_list = list_[-int(test_ratio * len(list_)):]
+        name_train = f"{name}_train"
+        name_test = f"{name}_test"
+        # generate training dataset
+        gen_ds(floor, ceil, name_train, n_train, n_train, op,
+               ops, rev, ref, list_pos=train_list, list_neg=test_list)
+        # generate test dataset
+        gen_ds(floor, ceil, name_test, n_test, n_test, op,
+               ops, rev, ref, list_pos=test_list, list_neg=train_list)
+    elif instructions[0] == 'm':
+        print(f'The given instructions are: {instructions}')
+        # merge the datasets
+        datasets = instructions[1:].split('-')
+        merge_datasets(datasets, name)
+    else:
+        print("The instructions are not correct.")
 
 
 if __name__ == '__main__':
