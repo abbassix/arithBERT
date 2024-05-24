@@ -390,6 +390,8 @@ def main():
     # YAML file name is given as an argument
     yaml_file = sys.argv[1]
     # load the configuration file
+    if yaml_file[-5:] == ".yaml":
+        yaml_file = yaml_file[:-5]
     with open(f"{yaml_file}.yaml", 'r') as file:
         config = yaml.safe_load(file)
 
