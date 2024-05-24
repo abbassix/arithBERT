@@ -264,7 +264,11 @@ def ad_ds(floor, ceil, name, ops="both", rev="both", ref=True):
     """
     umsk = []
     msk = []
-
+    # if floor is list and ceil is None, then floor is the list of numbers
+    if isinstance(floor, list) and ceil is None:
+        range_ = floor
+    else:
+        range_ = range(floor, ceil)
     if ops == "sign":
         opeq = [("+", "=")]
     elif ops == "word":
@@ -274,8 +278,8 @@ def ad_ds(floor, ceil, name, ops="both", rev="both", ref=True):
 
     # iterate over given range of numbers and generate addition problems
     for (op, eq) in opeq:
-        for op1 in range(floor, ceil):
-            for op2 in range(floor, ceil):
+        for op1 in range_:
+            for op2 in range_:
                 res = op1 + op2
                 if ref:
                     _op1 = reframe(op1)
@@ -303,7 +307,11 @@ def sub_ds(floor, ceil, name, ops="both", rev="both", ref=True):
     """
     umsk = []
     msk = []
-
+    # if floor is list and ceil is None, then floor is the list of numbers
+    if isinstance(floor, list) and ceil is None:
+        range_ = floor
+    else:
+        range_ = range(floor, ceil)
     if ops == "sign":
         opeq = [("-", "=")]
     elif ops == "word":
@@ -313,9 +321,11 @@ def sub_ds(floor, ceil, name, ops="both", rev="both", ref=True):
 
     # iterate over given range of numbers and generate subtraction problems
     for (op, eq) in opeq:
-        for op1 in range(floor, ceil):
-            for op2 in range(floor, op1+1):
+        for op1 in range_:
+            for op2 in range_:
                 res = op1 - op2
+                if res < 0:
+                    continue
                 if ref:
                     _op1 = reframe(op1)
                     op2 = reframe(op2)
