@@ -142,13 +142,16 @@ for i in range(n_epochs):
     single_digit_test_acc.append(accuracy(model, tokenizer, single_digit_test))
     double_digit_test_acc.append(accuracy(model, tokenizer, double_digit_test))
 
-print(f"single-digit test accuracy: {single_digit_test_acc}")
-print(f"double-digit test accuracy: {double_digit_test_acc}")
+    print(f"single-digit test accuracy: {single_digit_test_acc[-1]}")
+    print(f"double-digit test accuracy: {double_digit_test_acc[-1]}")
+
+print("Fine-tuning completed.\n")
 
 # save the model and the tokenizer
 print("Saving the model and the tokenizer...\n")
-model.save_pretrained(f"../models/{model_name}_{train_dataset_name}")
-tokenizer.save_pretrained(f"../models/{model_name}_{train_dataset_name}")
+saving_path = f"../models/{model_name}_{train_dataset_name}_{collator}"
+model.save_pretrained(saving_path)
+tokenizer.save_pretrained(saving_path)
 
 # save the accuracy results in a YAML file
 print("Saving the accuracy results...\n")
