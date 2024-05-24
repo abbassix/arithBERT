@@ -32,7 +32,7 @@ config_file = sys.argv[1]
 
 print("Loading the configuration file...\n")
 # check for errors in the configuration file
-if config_file[-5:] == ".yaml":
+if config_file.endswith(".yaml"):
     config_file = config_file[:-5]
 try:
     with open(f'{config_file}.yaml', 'r') as file:
