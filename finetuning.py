@@ -31,6 +31,8 @@ print("Successfully imported the necessary libraries.\n")
 config_file = sys.argv[1]
 
 print("Loading the configuration file...\n")
+if config_file[-5:] == ".yaml":
+    config_file = config_file[:-5]
 # check for errors in the configuration file
 try:
     with open(f'{config_file}.yaml', 'r') as file:
