@@ -114,6 +114,7 @@ def load_model(
         print(f"Loading the model from the local machine: {model_path}")
         model = AutoModelForMaskedLM.from_pretrained(model_path)
         tokenizer = AutoTokenizer.from_pretrained(model_path)
+        print(f"Model {model_name} is loaded from the local machine.")
     except FileNotFoundError:
         print(f"Model {model_name} is not found in the local machine.")
         print("Loading the model from the Hugging Face model hub!")
@@ -123,11 +124,11 @@ def load_model(
         # save the model to the local machine
         model.save_pretrained(model_path)
         tokenizer.save_pretrained(model_path)
-    # load the model from the local machine
-    model = AutoModelForMaskedLM.from_pretrained(model_name)
+    # # load the model from the local machine
+    # model = AutoModelForMaskedLM.from_pretrained(model_name)
 
-    # load the tokenizer from the local machine
-    tokenizer = AutoTokenizer.from_pretrained(model_name)
+    # # load the tokenizer from the local machine
+    # tokenizer = AutoTokenizer.from_pretrained(model_name)
 
     if verbose:
         num_parameters = model.num_parameters() / 1_000_000
